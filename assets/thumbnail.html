@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Short Drama Finder thumbnail</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 640px; overflow: hidden; }
+  body {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", "PingFang SC", sans-serif;
+    background:
+      radial-gradient(circle at 78% 30%, rgba(255, 64, 129, 0.28), transparent 42%),
+      radial-gradient(circle at 92% 88%, rgba(255, 176, 32, 0.22), transparent 40%),
+      radial-gradient(circle at 8% 100%, rgba(124, 77, 255, 0.25), transparent 45%),
+      #0d0b14;
+    color: #fff;
+    position: relative;
+  }
+  /* faint film-strip edges */
+  .strip { position: absolute; left: 0; right: 0; height: 22px; display: flex; gap: 14px; padding: 0 10px; opacity: .13; }
+  .strip.top { top: 12px; } .strip.bottom { bottom: 12px; }
+  .strip span { flex: 0 0 26px; height: 22px; border-radius: 4px; background: #fff; }
+
+  .left { position: absolute; left: 80px; top: 92px; width: 640px; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 19px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: #ffb020;
+  }
+  .kicker .dot { width: 9px; height: 9px; border-radius: 50%; background: #ff4081; box-shadow: 0 0 14px #ff4081; }
+  h1 { margin-top: 22px; font-size: 92px; line-height: .98; font-weight: 800; letter-spacing: -.035em; }
+  h1 .grad { background: linear-gradient(90deg, #ff4081, #ffb020); -webkit-background-clip: text; color: transparent; }
+  .sub { margin-top: 26px; font-size: 27px; line-height: 1.38; color: #d9d4e8; font-weight: 500; }
+  .sub b { color: #fff; }
+  .chips { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .chip {
+    font-size: 21px; font-weight: 600; padding: 9px 18px; border-radius: 999px;
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); color: #f1edf9;
+  }
+  .chip.cn { font-family: "PingFang SC", sans-serif; }
+  .agents {
+    position: absolute; left: 80px; bottom: 58px;
+    font-size: 18px; color: #a59fb8; font-weight: 500; letter-spacing: .02em;
+  }
+  .agents b { color: #fff; font-weight: 600; }
+  .agents .sep { color: #5d566f; margin: 0 8px; }
+
+  /* phones */
+  .phone {
+    position: absolute; width: 196px; height: 400px; border-radius: 30px;
+    background: #1b1726; border: 6px solid #2c2639;
+    box-shadow: 0 30px 60px rgba(0,0,0,.55);
+    overflow: hidden;
+  }
+  .phone .screen { position: absolute; inset: 0; }
+  .p1 { left: 790px; top: 150px; transform: rotate(-9deg); opacity: .8; }
+  .p1 .screen { background: linear-gradient(170deg, #5b2a86 0%, #2a1840 60%, #120c1c 100%); }
+  .p2 { left: 1010px; top: 110px; transform: rotate(8deg); opacity: .85; }
+  .p2 .screen { background: linear-gradient(170deg, #8a3a1e 0%, #3a1a14 60%, #140c0a 100%); }
+  .p3 { left: 895px; top: 92px; width: 216px; height: 440px; z-index: 2; border-color: #3a3150; }
+  .p3 .screen { background: linear-gradient(170deg, #c2185b 0%, #5a1036 55%, #170914 100%); }
+  .silhouette {
+    position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+    width: 120px; height: 200px;
+  }
+  .silhouette .head { position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 62px; height: 70px; border-radius: 50%; background: rgba(0,0,0,.45); }
+  .silhouette .body { position: absolute; left: 0; right: 0; top: 64px; bottom: 0; border-radius: 60px 60px 0 0; background: rgba(0,0,0,.45); }
+  .cap {
+    position: absolute; left: 12px; right: 12px; bottom: 26px; text-align: center;
+    font-size: 13px; font-weight: 700; color: #fff; text-shadow: 0 1px 4px #000;
+  }
+  .ep {
+    position: absolute; top: 14px; left: 12px; font-size: 11px; font-weight: 700;
+    background: rgba(0,0,0,.45); padding: 3px 8px; border-radius: 6px; color: #ffd27a;
+  }
+  .sys {
+    position: absolute; top: 46px; left: 50%; transform: translateX(-50%);
+    font-size: 12px; font-weight: 700; color: #7cf7ff; white-space: nowrap;
+    border: 1px solid rgba(124,247,255,.6); background: rgba(10,40,60,.55);
+    padding: 4px 9px; border-radius: 5px;
+  }
+
+  /* result card over the center phone */
+  .card {
+    position: absolute; left: 822px; top: 372px; z-index: 4; width: 392px;
+    background: rgba(18, 15, 27, .94); border: 1px solid rgba(255,255,255,.14);
+    border-radius: 18px; padding: 16px 18px; box-shadow: 0 24px 50px rgba(0,0,0,.6);
+  }
+  .card .row1 { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #6ee7a8; letter-spacing: .06em; text-transform: uppercase; }
+  .card .row1 .ok { width: 18px; height: 18px; border-radius: 50%; background: #1f9d5c; display: grid; place-items: center; font-size: 12px; color: #fff; }
+  .card .cn { margin-top: 8px; white-space: nowrap; font-family: "PingFang SC", sans-serif; font-size: 25px; font-weight: 700; }
+  .card .meta { margin-top: 6px; font-size: 14px; color: #a59fb8; }
+  .card .meta span { color: #ffb020; font-weight: 600; }
+
+  /* magnifier */
+  .lens {
+    position: absolute; left: 1050px; top: 250px; z-index: 5;
+    width: 120px; height: 120px; border-radius: 50%;
+    border: 11px solid #ffb020; background: rgba(255, 255, 255, .08);
+    box-shadow: 0 0 0 4px rgba(13,11,20,.6), 0 20px 40px rgba(0,0,0,.5), inset 0 0 30px rgba(255,255,255,.12);
+  }
+  .lens::after {
+    content: ""; position: absolute; width: 22px; height: 78px; border-radius: 11px;
+    background: linear-gradient(#ffb020, #ff8a00);
+    left: 102px; top: 92px; transform: rotate(-45deg); transform-origin: top center;
+  }
+  .lens .glint { position: absolute; left: 20px; top: 16px; width: 26px; height: 14px; border-radius: 50%; background: rgba(255,255,255,.35); transform: rotate(-30deg); }
+</style>
+</head>
+<body>
+  <div class="strip top"></div>
+  <div class="strip bottom"></div>
+
+  <div class="left">
+    <div class="kicker"><span class="dot"></span>Open-source agent skill</div>
+    <h1>Short Drama<br><span class="grad">Finder</span></h1>
+    <p class="sub">Saw a viral clip? Find the <b>full series</b>: from a<br>TikTok link, screenshot, title, or plot.</p>
+    <div class="chips">
+      <span class="chip cn">短剧 · AI短剧</span>
+      <span class="chip cn">《原始片名》</span>
+      <span class="chip">/search-short-drama</span>
+    </div>
+  </div>
+
+  <div class="agents">
+    <b>Claude Code</b><span class="sep">•</span><b>Codex</b><span class="sep">•</span><b>Antigravity</b><span class="sep">•</span><b>OpenCode</b><span class="sep">•</span><b>Kiro</b><span class="sep">•</span><b>Cursor</b><span class="sep">•</span><b>Windsurf</b>
+  </div>
+
+  <div class="phone p1"><div class="screen"><div class="ep">EP 12</div><div class="silhouette"><div class="head"></div><div class="body"></div></div></div></div>
+  <div class="phone p2"><div class="screen"><div class="ep">EP 47</div><div class="silhouette"><div class="head"></div><div class="body"></div></div></div></div>
+  <div class="phone p3"><div class="screen"><div class="ep">EP 1 / 30</div><div class="sys">[ Affection +15 ]</div><div class="silhouette"><div class="head"></div><div class="body"></div></div></div></div>
+
+  <div class="lens"><div class="glint"></div></div>
+
+  <div class="card">
+    <div class="row1"><span class="ok">✓</span>Drama identified</div>
+    <div class="cn">《好感度越高，武器越猛》</div>
+    <div class="meta">AI short drama · <span>full series found</span></div>
+  </div>
+
+  <script>
+    for (const s of document.querySelectorAll('.strip')) s.innerHTML = '<span></span>'.repeat(32);
+  </script>
+</body>
+</html>

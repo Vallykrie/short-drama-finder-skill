@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/thumbnail.png" alt="Short Drama Finder: open-source AI agent skill that finds the full series of viral short dramas, micro-dramas and AI short dramas (短剧 / AI短剧) from a TikTok link, screenshot, title or plot" width="100%">
+
 # 🎬 Short Drama Finder: AI Agent Skill for Finding Full Short Dramas
 
 **Saw a viral short drama clip on TikTok, Reels, or YouTube Shorts and want the full series?**
