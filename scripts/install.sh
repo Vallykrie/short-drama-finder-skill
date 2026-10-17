@@ -15,6 +15,8 @@ SKILL_SOURCE="$REPO_DIR/SKILL.md"
 KIRO_SOURCE="$REPO_DIR/.kiro/steering/$SKILL_NAME.md"
 CURSOR_SOURCE="$REPO_DIR/.cursor/rules/$SKILL_NAME.mdc"
 WINDSURF_SOURCE="$REPO_DIR/.windsurf/rules/$SKILL_NAME.md"
+CMD_NAME="search-short-drama"
+CMD_SOURCE="$REPO_DIR/commands/$CMD_NAME.md"
 
 MODE="--global"
 ACTION="install"
@@ -27,7 +29,7 @@ for arg in "$@"; do
   esac
 done
 
-for f in "$SKILL_SOURCE" "$KIRO_SOURCE" "$CURSOR_SOURCE" "$WINDSURF_SOURCE"; do
+for f in "$SKILL_SOURCE" "$KIRO_SOURCE" "$CURSOR_SOURCE" "$WINDSURF_SOURCE" "$CMD_SOURCE"; do
   [ -f "$f" ] || { echo "Missing $f. Run scripts/sync-wrappers.sh first." >&2; exit 1; }
 done
 
@@ -61,6 +63,12 @@ if [ "$MODE" = "--workspace" ]; then
   install_target "Kiro (Workspace)"        "$KIRO_SOURCE"     "./.kiro/steering"               "$SKILL_NAME.md"
   install_target "Cursor (Workspace)"      "$CURSOR_SOURCE"   "./.cursor/rules"                "$SKILL_NAME.mdc"
   install_target "Windsurf (Workspace)"    "$WINDSURF_SOURCE" "./.windsurf/rules"              "$SKILL_NAME.md"
+  echo "⌨️  Slash command /$CMD_NAME:"
+  install_target "Claude Code (Workspace)" "$CMD_SOURCE" "./.claude/commands"   "$CMD_NAME.md"
+  install_target "OpenCode (Workspace)"    "$CMD_SOURCE" "./.opencode/commands" "$CMD_NAME.md"
+  install_target "Antigravity (Workspace)" "$CMD_SOURCE" "./.agent/workflows"   "$CMD_NAME.md"
+  install_target "Cursor (Workspace)"      "$CMD_SOURCE" "./.cursor/commands"   "$CMD_NAME.md"
+  install_target "Windsurf (Workspace)"    "$CMD_SOURCE" "./.windsurf/workflows" "$CMD_NAME.md"
 else
   echo "🌍 Mode: Global User Profile ($HOME)"
   install_target "Antigravity (Global)" "$SKILL_SOURCE" "$HOME/.gemini/antigravity/skills/$SKILL_NAME" "SKILL.md"
@@ -68,12 +76,20 @@ else
   install_target "OpenAI Codex (Global)" "$SKILL_SOURCE" "$HOME/.codex/skills/$SKILL_NAME"            "SKILL.md"
   install_target "OpenCode (Global)"    "$SKILL_SOURCE" "$HOME/.config/opencode/skills/$SKILL_NAME"   "SKILL.md"
   install_target "Kiro (Global)"        "$KIRO_SOURCE"  "$HOME/.kiro/steering"                        "$SKILL_NAME.md"
-  echo "  ℹ️  Cursor and Windsurf rules are project-level: run with --workspace inside a project."
+  echo "⌨️  Slash command /$CMD_NAME:"
+  install_target "Claude Code (Global)"  "$CMD_SOURCE" "$HOME/.claude/commands"                     "$CMD_NAME.md"
+  install_target "OpenAI Codex (Global)" "$CMD_SOURCE" "${CODEX_HOME:-$HOME/.codex}/prompts"        "$CMD_NAME.md"
+  install_target "OpenCode (Global)"     "$CMD_SOURCE" "$HOME/.config/opencode/commands"            "$CMD_NAME.md"
+  install_target "Antigravity (Global)"  "$CMD_SOURCE" "$HOME/.gemini/antigravity/global_workflows" "$CMD_NAME.md"
+  install_target "Cursor (Global)"       "$CMD_SOURCE" "$HOME/.cursor/commands"                     "$CMD_NAME.md"
+  echo "  ℹ️  Cursor and Windsurf rules (and the Windsurf workflow) are project-level: run with --workspace inside a project."
+  echo "  ℹ️  In Codex the command is /prompts:$CMD_NAME (restart Codex to load it)."
 fi
 
 echo ""
 if [ "$ACTION" = "install" ]; then
-  echo "🚀 Done! Trigger '$SKILL_NAME' in any agent by dropping a drama title, link, screenshot, or plot."
+  echo "🚀 Done! Trigger '$SKILL_NAME' in any agent by dropping a drama title, link, screenshot, or plot,"
+  echo "   or run it manually with /$CMD_NAME <title | link | plot>."
 else
   echo "Done."
 fi

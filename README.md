@@ -44,6 +44,7 @@ No API keys, servers, or dependencies. It is a single Markdown skill file that w
 | **Production type** | Tells you if it is AI face-swap, full-stack AI (SkyReels, Seedance, Kling), AI pet / manhua, or live-action |
 | **No fake links** | The agent only shows URLs it verified in the current turn, and labels unofficial sources |
 | **Multilingual replies** | Answers in your language; triggers on Indonesian requests like *"cari drama pendek"* and *"nonton full episode"* |
+| **Manual slash command** | Run `/search-short-drama <query>` any time the skill does not start on its own |
 
 ## ⚡ Quick Install (one line)
 
@@ -81,6 +82,22 @@ To remove it:
 
 > **Kiro tip:** the steering file uses manual inclusion. Type `#short-drama-finder` in chat to load it.
 
+### ⌨️ `/search-short-drama` slash command
+
+The installer also adds a **`/search-short-drama`** command, so you can run the skill by hand if your agent does not pick it up on its own. The command file embeds the full skill, so it works even when the skill was not loaded.
+
+| Agent | How to run it | Global path | Workspace path |
+|---|---|---|---|
+| **Claude Code** | `/search-short-drama <query>` | `~/.claude/commands/search-short-drama.md` | `.claude/commands/search-short-drama.md` |
+| **OpenAI Codex** | `/prompts:search-short-drama <query>` | `~/.codex/prompts/search-short-drama.md` | *(global only)* |
+| **OpenCode** | `/search-short-drama <query>` | `~/.config/opencode/commands/search-short-drama.md` | `.opencode/commands/search-short-drama.md` |
+| **Antigravity** | `/search-short-drama <query>` | `~/.gemini/antigravity/global_workflows/search-short-drama.md` | `.agent/workflows/search-short-drama.md` |
+| **Cursor** | `/search-short-drama <query>` | `~/.cursor/commands/search-short-drama.md` | `.cursor/commands/search-short-drama.md` |
+| **Windsurf** | `/search-short-drama <query>` | *(workspace only)* | `.windsurf/workflows/search-short-drama.md` |
+| **Kiro** | `#short-drama-finder <query>` | *(uses the steering file)* | *(uses the steering file)* |
+
+**Manual install:** copy [`commands/search-short-drama.md`](commands/search-short-drama.md) to the path for your agent. Restart Codex after adding it.
+
 ## 🚀 Usage
 
 After installing, just ask your agent in plain language:
@@ -101,7 +118,13 @@ There's an AI drama where a guy in ancient Sparta gets modern weapons every time
 Cari drama pendek "Istri Tersembunyi Sang CEO", nonton full episode sub indo di mana?
 ```
 
-In Claude Code you can also call it directly with `/short-drama-finder`. More examples live in [`examples/sample-queries.md`](examples/sample-queries.md).
+If the skill does not start on its own, run it manually with the slash command:
+
+```text
+/search-short-drama I Got Three Girlfriends From the System
+```
+
+More examples live in [`examples/sample-queries.md`](examples/sample-queries.md).
 
 ### Example output
 
@@ -146,6 +169,7 @@ short-drama-finder-skill/
 ├── .kiro/steering/short-drama-finder.md     # Kiro steering file (generated)
 ├── .cursor/rules/short-drama-finder.mdc     # Cursor rule (generated)
 ├── .windsurf/rules/short-drama-finder.md    # Windsurf rule (generated)
+├── commands/search-short-drama.md   # /search-short-drama slash command (generated)
 ├── scripts/
 │   ├── install.sh                   # Multi-agent installer (global / workspace / uninstall)
 │   └── sync-wrappers.sh             # Regenerates the wrapper files from SKILL.md
@@ -192,4 +216,4 @@ New platforms, trope translations, languages, and test cases are all welcome. Se
 
 ---
 
-<sub>**Keywords:** short drama finder, find short drama, micro drama finder, vertical drama, AI short drama, AI drama finder, duanju, 短剧, AI短剧, 漫剧, 短剧全集, find full series, full episodes, where to watch short drama, TikTok drama name, Reels drama title, YouTube Shorts drama, ReelShort, DramaBox, ShortMax, DramaWave, Hongguo 红果短剧, cari drama pendek, nonton full episode, drama China sub indo, agent skill, Claude Code skill, Codex skill, Antigravity skill, OpenCode skill, Kiro steering, Cursor rules, Windsurf rules, SKILL.md</sub>
+<sub>**Keywords:** short drama finder, find short drama, micro drama finder, vertical drama, AI short drama, AI drama finder, duanju, 短剧, AI短剧, 漫剧, 短剧全集, find full series, full episodes, where to watch short drama, TikTok drama name, Reels drama title, YouTube Shorts drama, ReelShort, DramaBox, ShortMax, DramaWave, Hongguo 红果短剧, cari drama pendek, nonton full episode, drama China sub indo, agent skill, Claude Code skill, Codex skill, Antigravity skill, OpenCode skill, Kiro steering, Cursor rules, Windsurf rules, Windsurf workflows, slash command, /search-short-drama, search short drama, SKILL.md</sub>

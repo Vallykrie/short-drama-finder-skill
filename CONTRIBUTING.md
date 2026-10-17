@@ -10,7 +10,7 @@ Thanks for helping people find the dramas they love. Contributions of every size
 
 ## How to change the skill
 1. Edit **`SKILL.md` only**. It is the single source of truth.
-2. Run `scripts/sync-wrappers.sh` to regenerate `AGENTS.md`, the Kiro steering file, and the Cursor and Windsurf rules.
+2. Run `scripts/sync-wrappers.sh` to regenerate `AGENTS.md`, the Kiro steering file, the Cursor and Windsurf rules, and the `/search-short-drama` command.
 3. Run `scripts/install.sh --workspace` in a scratch folder and try a query in your agent.
 4. Open a pull request that describes what changed and which agent you tested with.
 

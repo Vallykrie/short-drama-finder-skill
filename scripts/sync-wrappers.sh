@@ -53,4 +53,23 @@ mkdir -p "$ROOT/.windsurf/rules"
   body
 } > "$ROOT/.windsurf/rules/$NAME.md"
 
+# /search-short-drama: manual slash command / workflow for agents that support them.
+# Self-contained (embeds the full skill) so it works even when the skill did not load.
+CMD="search-short-drama"
+mkdir -p "$ROOT/commands"
+{
+  printf -- '---\ndescription: "Search for a short drama / micro-drama / AI short drama and where to watch the full series (manually runs the %s skill)."\nargument-hint: "<title | TikTok/Reels/Shorts link | screenshot | plot description>"\n---\n\n' "$NAME"
+  echo "$notice"
+  echo
+  echo "Run the **$NAME** skill now on this query:"
+  echo
+  echo '> $ARGUMENTS'
+  echo
+  echo "If the line above is empty or still shows a literal \`\$ARGUMENTS\` placeholder, use the text, link, or image the user sent with this command. If there is none, ask the user for a drama title, video link, screenshot, or plot description, then continue."
+  echo
+  echo "Follow every step below and answer in the required output format."
+  echo
+  body
+} > "$ROOT/commands/$CMD.md"
+
 echo "Wrappers regenerated from SKILL.md."
